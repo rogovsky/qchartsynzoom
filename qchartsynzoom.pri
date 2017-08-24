@@ -1,7 +1,7 @@
 include( common.pri )
 
-INCLUDEPATH += $$PWD
-DEPENDPATH  += $$PWD
+INCLUDEPATH += $$PWD/sources
+DEPENDPATH  += $$PWD/sources
 VPATH       += $$PWD
 
 DEFINES += QCHARTZOOM
@@ -9,14 +9,14 @@ DEFINES += QCHARTZOOM
 # ==============================================================================
 
 PUBLIC_HEADERS += \
-    qchartsynzoom.h      \
-    qaxissynzoomsvc.h    \
-    qwheelsynzoomsvc.h   \
+    sources/qchartsynzoom.h      \
+    sources/qaxissynzoomsvc.h    \
+    sources/qwheelsynzoomsvc.h   \
 
 PUBLIC_SOURCES += \
-    qchartsynzoom.cpp    \
-    qaxissynzoomsvc.cpp  \
-    qwheelsynzoomsvc.cpp \
+    sources/qchartsynzoom.cpp    \
+    sources/qaxissynzoomsvc.cpp  \
+    sources/qwheelsynzoomsvc.cpp \
 
 # ==============================================================================
 
