@@ -12,7 +12,7 @@ This is the project for the QChartSynZoom library.
 
 ## Licensing library
 
-The primary authoor is Sergey Melnikov.
+The primary author is Sergey Melnikov.
 
 Copyright (c) 2012 Sergey Melnikov
 
