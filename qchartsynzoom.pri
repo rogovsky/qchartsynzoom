@@ -4,7 +4,7 @@ INCLUDEPATH += $$PWD/sources
 DEPENDPATH  += $$PWD/sources
 VPATH       += $$PWD
 
-DEFINES += QCHARTZOOM
+DEFINES += QCHARTSYNZOOM
 
 # ==============================================================================
 
