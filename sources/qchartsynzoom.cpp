@@ -16,6 +16,8 @@
 
 #include <qwt_scale_widget.h>
 
+#include <math.h>
+
 // Конструктор для графиков в сплиттере
 QChartSynZoom::QChartSynZoom(QSplitter *sp) :
     QObject(sp)
