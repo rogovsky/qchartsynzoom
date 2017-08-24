@@ -1,0 +1,66 @@
+########################################################################
+## Travis CI config for QChartSynZoom
+##
+## Steps:
+## * installs '3rdparty' from source
+## * confirms build and install
+########################################################################
+
+sudo: required
+dist: trusty
+
+language: cpp
+compiler: gcc
+
+env:
+  global:
+    - INSTALL_PREFIX=/tmp
+  matrix:
+  - QT_SELECT=4
+  - QT_SELECT=5
+
+before_install:
+  # regular ubuntu packages
+  - sudo add-apt-repository main
+  - sudo add-apt-repository universe
+
+  # update after package changes
+  - sudo apt-get -qq update
+
+  # Check avaliable versions of Qwt (on Trusty)
+  - sudo apt-cache search libqwt
+  - sudo apt-cache search qtsvg
+  - sudo apt-cache search qt
+
+install:
+  # Qt development files
+  - sudo apt-get -qq update
+  - sudo apt-get -qq -y install libqt4-dev qtbase5-dev qtchooser
+
+  # Requirements for Qwt building from source (qwt packages avaliable on Trusty)
+  - sudo apt-get install -qq -y libqt4-svg
+  - sudo apt-get install -qq -y libqt5svg5 libqt5svg5-dev
+  - sudo apt-get install -qq -y libqt4-designer qt4-designer
+  - sudo apt-get install -qq -y libqt5designer5 libqt5designercomponents5
+
+  - sudo apt-get install -qq -y libqwt5-qt4 libqwt5-qt4-dev
+  - sudo apt-get install -qq -y libqwt6 libqwt-dev
+
+  # for building local copy of Qwt
+  - sudo apt-get -qq -y install qttools5-dev qttools5-dev-tools
+
+before_script:
+  - pushd /tmp
+  - popd
+
+script:
+  - ./configure -library
+  - qmake && make
+  - ls -la
+  - ls -la buildlib
+
+  - make uninstall
+  - make distclean
+
+after_failure:
+  - echo "Fail..."
