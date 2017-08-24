@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
-    // устанавливаем размеры секций сплиттера
+    // СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј СЂР°Р·РјРµСЂС‹ СЃРµРєС†РёР№ СЃРїР»РёС‚С‚РµСЂР°
     w.setSplitSize();
 
     return a.exec();
