@@ -54,6 +54,9 @@ before_script:
   - git clone https://github.com/osakared/qwt.git -b tags/qwt-6.1.3
   - popd
 
+  - ls -la /usr/include/qw*
+  - ls -la /usr/lib/libqw*
+
 script:
   - ./configure -library
   - qmake && make
