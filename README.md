@@ -6,6 +6,10 @@ This is the project for the QChartSynZoom library.
 
 * http://qtlinux.narod.ru/sync_zoom.htm (in Russian)
 
+## Build Status
+
+- Trawis: [![Travis Build Status](https://travis-ci.org/rogovsky/qchartsynzoom.svg?branch=master)](https://travis-ci.org/rogovsky/qchartsynzoom)
+
 ## Licensing library
 
 The primary authoor is Sergey Melnikov.
