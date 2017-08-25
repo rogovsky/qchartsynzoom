@@ -20,21 +20,33 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // создаем легенду для первого графика
     leg1 = new QwtLegend();
+#if QWT_VERSION < 0x060099   // qwt-5.2.x + qwt-6.0.x
     leg1->setItemMode(QwtLegend::ReadOnlyItem); // легенда только для чтения
+#else                        // qwt-6.1.x
+    leg1->setDefaultItemMode(QwtLegendData::ReadOnly);
+#endif
     leg1->contentsWidget()->setStyleSheet(tss); // устанавливаем свойства легенды
     // вставляем легенду на график
     ui->plot1->insertLegend(leg1,QwtPlot::TopLegend);
 
     // создаем легенду для второго графика
     leg2 = new QwtLegend();
+#if QWT_VERSION < 0x060099   // qwt-5.2.x + qwt-6.0.x
     leg2->setItemMode(QwtLegend::ReadOnlyItem); // легенда только для чтения
+#else                        // qwt-6.1.x
+    leg2->setDefaultItemMode(QwtLegendData::ReadOnly);
+#endif
     leg2->contentsWidget()->setStyleSheet(tss); // устанавливаем свойства легенды
     // вставляем легенду на график
     ui->plot2->insertLegend(leg2,QwtPlot::TopLegend);
 
     // создаем легенду для третьего графика
     leg3 = new QwtLegend();
+#if QWT_VERSION < 0x060099   // qwt-5.2.x + qwt-6.0.x
     leg3->setItemMode(QwtLegend::ReadOnlyItem); // легенда только для чтения
+#else                        // qwt-6.1.x
+    leg3->setDefaultItemMode(QwtLegendData::ReadOnly);
+#endif
     leg3->contentsWidget()->setStyleSheet(tss); // устанавливаем свойства легенды
     // вставляем легенду на график
     ui->plot3->insertLegend(leg3,QwtPlot::TopLegend);
@@ -44,9 +56,13 @@ MainWindow::MainWindow(QWidget *parent) :
     // разрешаем линии для дополнительных делений нижней шкалы
     grid1->enableXMin(true);
     // назначаем цвет и стиль линий для основных делений
+#if QWT_VERSION < 0x060099   // qwt-5.2.x + qwt-6.0.x
     grid1->setMajPen(QPen(Qt::black,0,Qt::DotLine));
-    // назначаем цвет и стиль линий для дополнительных делений
     grid1->setMinPen(QPen(Qt::gray,0,Qt::DotLine));
+#else                        // qwt-6.1.x
+    grid1->setMajorPen(QPen(Qt::black,0,Qt::DotLine));
+    grid1->setMinorPen(QPen(Qt::gray,0,Qt::DotLine));
+#endif
     grid1->attach(ui->plot1);   // прикрепляем сетку к графику
 
     // создаем координатную сетку для второго графика
@@ -54,9 +70,13 @@ MainWindow::MainWindow(QWidget *parent) :
     // разрешаем линии для дополнительных делений нижней шкалы
     grid2->enableXMin(true);
     // назначаем цвет и стиль линий для основных делений
+#if QWT_VERSION < 0x060099   // qwt-5.2.x + qwt-6.0.x
     grid2->setMajPen(QPen(Qt::black,0,Qt::DotLine));
-    // назначаем цвет и стиль линий для дополнительных делений
     grid2->setMinPen(QPen(Qt::gray,0,Qt::DotLine));
+#else                        // qwt-6.1.x
+    grid2->setMajorPen(QPen(Qt::black,0,Qt::DotLine));
+    grid2->setMinorPen(QPen(Qt::gray,0,Qt::DotLine));
+#endif
     grid2->attach(ui->plot2);   // прикрепляем сетку к графику
 
     // создаем координатную сетку для первого графика
@@ -64,9 +84,13 @@ MainWindow::MainWindow(QWidget *parent) :
     // разрешаем линии для дополнительных делений нижней шкалы
     grid3->enableXMin(true);
     // назначаем цвет и стиль линий для основных делений
+#if QWT_VERSION < 0x060099   // qwt-5.2.x + qwt-6.0.x
     grid3->setMajPen(QPen(Qt::black,0,Qt::DotLine));
-    // назначаем цвет и стиль линий для дополнительных делений
     grid3->setMinPen(QPen(Qt::gray,0,Qt::DotLine));
+#else                        // qwt-6.1.x
+    grid3->setMajorPen(QPen(Qt::black,0,Qt::DotLine));
+    grid3->setMinorPen(QPen(Qt::gray,0,Qt::DotLine));
+#endif
     grid3->attach(ui->plot3);   // прикрепляем сетку к графику
 
 // Изменение размера шрифта шкал графиков

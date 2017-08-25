@@ -21,4 +21,3 @@ Use, modification and distribution is permitted.
 A copy of the license and copyright notice must be included with the software.
 
 In Russian: "Разрешается свободное использование и распространение. Упоминание автора обязательно."
-

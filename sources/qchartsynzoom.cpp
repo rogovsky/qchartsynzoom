@@ -348,9 +348,11 @@ QList<int> *QChartSynZoom::getLabelWidths(QwtPlot *plt,int xAx)
     QFont fnt = plt->axisFont(xAx);
 
     // получаем список основных меток горизонтальной шкалы
-#if QWT_VERSION < 0x060000
+#if   QWT_VERSION < 0x060000   // qwt-5.2.x
     QwtValueList vl = plt->axisScaleDiv(xAx)->ticks(QwtScaleDiv::MajorTick);
-#else
+#elif QWT_VERSION > 0x060099   // qwt-6.1.x
+    QList<double> vl = plt->axisScaleDiv(xAx).ticks(QwtScaleDiv::MajorTick);
+#else                          // qwt-6.0.x
     QList<double> vl = plt->axisScaleDiv(xAx)->ticks(QwtScaleDiv::MajorTick);
 #endif
 
@@ -506,7 +508,11 @@ bool QChartSynZoom::updateVerAxis(QwtPlot *plt,int yAx,int *vDiv)
     // получаем шрифт, использующийся на вертикальной шкале
     QFont fnt = plt->axisFont(yAx);
     // узнаем значение верхней границы вертикальной шкалы
+#if QWT_VERSION < 0x060099   // qwt-5.2.x + qwt-6.0.x
     double mxl = plt->axisScaleDiv(yAx)->upperBound();
+#else                        // qwt-6.1.x
+    double mxl = plt->axisScaleDiv(yAx).upperBound();
+#endif
 
     // определяем размер надписи, соответствующей этому значению при заданном шрифте
 #if QWT_VERSION < 0x060000
@@ -619,7 +625,17 @@ void QChartSynZoom::scaleDivChanged()
                     if (k != ind)   // для каждого, несовпадающего с изменившимся
                         // устанавливаем количество делений на шкале такое же,
                         // как на изменившемся графике
+#if QWT_VERSION < 0x060099   // qwt-5.2.x + qwt-6.0.x
                         items->at(k)->isb_x->setDiv(it->plot->axisScaleDiv(axId));
+#else                        // qwt-6.1.x
+                    {
+                        // TODO: should be reimplemented to avvoid additional copy constructor usage
+                        // 1. make copy
+                        QwtScaleDiv tmpScaleDiv( it->plot->axisScaleDiv(axId) );
+                        // 2. pass the pointer to the copy to the function
+                        items->at(k)->isb_x->setDiv( &tmpScaleDiv );
+                    }
+#endif
         }
         else // иначе (изменилась вертикальная шкала)
         {
@@ -1178,7 +1194,11 @@ void QMainSynZoomSvc::startZoom(QMouseEvent *mEvent,int ind)
     {
         // получаем указатели на
         QwtPlot *plt = zoom->at(ind)->plot; // график
+#if QWT_VERSION < 0x060099   // qwt-5.2.x + qwt-6.0.x
         QwtPlotCanvas *cv = plt->canvas();  // и канву
+#else                        // qwt-6.1.x
+        QWidget *cv  = plt->canvas();       // и канву
+#endif
         // получаем геометрию канвы графика
         QRect cg = cv->geometry();
         // определяем текущее положение курсора (относительно канвы графика)
@@ -1272,7 +1292,11 @@ void QMainSynZoomSvc::procZoom(QMouseEvent *mEvent,int ind)
             // получаем указатели на
             QChartZoomItem *it = zoom->at(ind); // масштабирующий элемент
             QwtPlot *plt = it->plot;            // график
+#if QWT_VERSION < 0x060099   // qwt-5.2.x + qwt-6.0.x
             QwtPlotCanvas *cv = plt->canvas();  // и канву
+#else                        // qwt-6.1.x
+            QWidget *cv  = plt->canvas();       // и канву
+#endif
             // восстанавливаем курсор
             cv->setCursor(tCursor);
             // если включена индикация, то удаляем виджет,
@@ -1403,9 +1427,11 @@ QRegion QDragSynZoomSvc::addHorTicks(QRegion rw,QwtScaleDiv::TickType tt,QChartZ
     // получаем указатель на график
     QwtPlot *plt = it->plot;
     // получаем список основных меток горизонтальной шкалы
-#if QWT_VERSION < 0x060000
+#if   QWT_VERSION < 0x060000   // qwt-5.2.x
     QwtValueList vl = plt->axisScaleDiv(it->masterX)->ticks(tt);
-#else
+#elif QWT_VERSION > 0x060099   // qwt-6.1.x
+    QList<double> vl = plt->axisScaleDiv(it->masterX).ticks(tt);
+#else                          // qwt-6.0.x
     QList<double> vl = plt->axisScaleDiv(it->masterX)->ticks(tt);
 #endif
 
@@ -1429,9 +1455,11 @@ QRegion QDragSynZoomSvc::addVerTicks(QRegion rw,QwtScaleDiv::TickType tt,QChartZ
     // получаем указатель на график
     QwtPlot *plt = it->plot;
     // получаем список основных меток вертикальной шкалы
-#if QWT_VERSION < 0x060000
+#if   QWT_VERSION < 0x060000   // qwt-5.2.x
     QwtValueList vl = plt->axisScaleDiv(it->masterY)->ticks(tt);
-#else
+#elif QWT_VERSION > 0x060099   // qwt-6.1.x
+    QList<double> vl = plt->axisScaleDiv(it->masterY).ticks(tt);
+#else                          // qwt-6.0.x
     QList<double> vl = plt->axisScaleDiv(it->masterY)->ticks(tt);
 #endif
 
@@ -1549,7 +1577,11 @@ void QDragSynZoomSvc::startDrag(QMouseEvent *mEvent,int ind)
         // получаем указатели на
         QChartZoomItem *it = zoom->at(ind); // масштабирующий элемент
         QwtPlot *plt = it->plot;            // график
+#if QWT_VERSION < 0x060099   // qwt-5.2.x + qwt-6.0.x
         QwtPlotCanvas *cv = plt->canvas();  // и канву
+#else                        // qwt-6.1.x
+        QWidget *cv  = plt->canvas();       // и канву
+#endif
         // получаем геометрию канвы графика
         QRect cg = cv->geometry();
         // определяем текущее положение курсора (относительно канвы графика)
