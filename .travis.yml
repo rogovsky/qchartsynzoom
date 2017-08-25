@@ -15,11 +15,53 @@ compiler: gcc
 env:
   global:
     - INSTALL_PREFIX=/tmp
+
+    # Speeding up build??!
+    # https://docs.travis-ci.com/user/speeding-up-the-build/
+    # https://docs.travis-ci.com/user/reference/overview/#Virtualization-environments
+    - MAKEFLAGS="-j 2"
+
     - QT_SELECT=4
+    - USE_QWT=local
 
   matrix:
-    - QT_SELECT=5
+    # Testing under Ubuntu-Trusty system libraries
+    - USE_QWT=systm   QT_SELECT=4
+    - USE_QWT=systm   QT_SELECT=5
+
+    # Qwt versions < 5.2 are not supported??!!
+    #- QWT_VERSION=tags/qwt-5.0.0
+    #- QWT_VERSION=tags/qwt-5.0.1
+    #- QWT_VERSION=qwt-5.0
+
+    #- QWT_VERSION=tags/qwt-5.1.0
+    #- QWT_VERSION=tags/qwt-5.1.1
+    #- QWT_VERSION=qwt-5.1
+
+    - QWT_VERSION=tags/qwt-5.2.1
+    - QWT_VERSION=tags/qwt-5.2.2
+    - QWT_VERSION=tags/qwt-5.2.3
+    - QWT_VERSION=qwt-5.2
+    - QWT_VERSION=tags/qwt-6.0.1
+    - QWT_VERSION=tags/qwt-6.0.2
+    - QWT_VERSION=qwt-6.0
+
+    - QWT_VERSION=tags/qwt-6.1.0
+    - QWT_VERSION=tags/qwt-6.1.1
+    - QWT_VERSION=tags/qwt-6.1.2
     - QWT_VERSION=tags/qwt-6.1.3
+    - QWT_VERSION=qwt-6.1
+
+    # Additional builds under Qt-5 environment
+    - QWT_VERSION=tags/qwt-6.1.0   QT_SELECT=5
+    - QWT_VERSION=tags/qwt-6.1.1   QT_SELECT=5
+    - QWT_VERSION=tags/qwt-6.1.2   QT_SELECT=5
+    - QWT_VERSION=tags/qwt-6.1.3   QT_SELECT=5
+    - QWT_VERSION=qwt-6.1          QT_SELECT=5
+
+    # Additional build for future versios: Qwt-6.2.0 + Qt-5
+    - QWT_VERSION=qwt-6.2          QT_SELECT=4
+    - QWT_VERSION=qwt-6.2          QT_SELECT=5
 
 before_install:
   # regular ubuntu packages
