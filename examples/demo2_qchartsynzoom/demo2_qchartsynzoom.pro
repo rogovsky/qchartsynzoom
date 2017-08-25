@@ -3,14 +3,9 @@ CONFIG += qt qwt
 
 
 QT  += core gui
-greaterThan(QT_MAJOR_VERSION, 4) {
-    QT += widgets
-    INCLUDEPATH += /usr/include/qwt/
-    LIBS += -L/usr/lib/ -lqwt
-    unix : QMAKE_RPATHDIR += /usr/lib/
-}
+greaterThan(QT_MAJOR_VERSION, 4) : QT += widgets
 
-
+CONFIG( qwt ) : include( ../../find_qwt.pri )
 include( ../../qchartsynzoom.pri )
 
 
